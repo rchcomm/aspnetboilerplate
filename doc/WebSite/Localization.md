@@ -275,13 +275,13 @@ language. Example usage:
         {
             options.UseAbpRequestLocalization = false; //disable automatic adding of request localization
         });
-
+    
         //...authentication middleware(s)
-
+    
         app.UseAbpRequestLocalization(); //manually add request localization
-
+    
         //...other middlewares
-
+    
         app.UseMvc(routes =>
         {
             //...
@@ -424,9 +424,9 @@ sets the source name:
 
     public abstract class SimpleTaskSystemWebViewPageBase : SimpleTaskSystemWebViewPageBase<dynamic>
     {
-
+    
     }
-
+    
     public abstract class SimpleTaskSystemWebViewPageBase<TModel> : AbpWebViewPage<TModel>
     {
         protected SimpleTaskSystemWebViewPageBase()
@@ -468,7 +468,7 @@ text:
 The localization method can also get additional format arguments. Example:
 
     abp.localization.localize('RoleDeleteWarningMessage', 'MySource', 'Admin');
-
+    
     //shortcut if the source is retrieved using getSource as shown above
     source('RoleDeleteWarningMessage', 'Admin');
 
@@ -526,19 +526,18 @@ as shown below:
 We can then register it on the PreInitialize method of our module:
 
     Configuration.Localization.Sources.Extensions.Add(
-        new LocalizationSourceExtensionInfo("AbpWeb",
-            new XmlFileLocalizationDictionaryProvider(
-                HttpContext.Current.Server.MapPath("~/Localization/AbpWebExtensions")
-                )
-            )
-        );
+    	new LocalizationSourceExtensionInfo("AbpWeb",
+    		new XmlEmbeddedFileLocalizationDictionaryProvider(
+    			Assembly.GetExecutingAssembly(),
+    			"MyCompany.MyProject.Localization.Sources"
+    		)
+    	)
+    );
 
-We could use XmlEmbeddedFileLocalizationDictionaryProvider if we want to
-create embedded resource XML files (see the Localization sources section).
 ASP.NET Boilerplate overrides (merges) the base localization source with our
 XML files. We can also add new language files.
 
-**Note**: We can use JSON files to extend XML files, or vice verse.
+**Note**: We can use JSON files to extend XML files, or vice verse. The files created for extending localization sources must be marked as **embedded resource**.
 
 ### Getting Languages
 
