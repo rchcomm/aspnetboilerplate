@@ -29,7 +29,7 @@ public static class PostgreSqlDemoDbContextConfigurer
         builder.UseNpgsql(connection);
     }
  }
- ```
+```
 
 #### Configure connection string 
 
@@ -72,6 +72,8 @@ public class PostgreSqlDemoDbContext : AbpZeroDbContext<Tenant, Role, User, Post
     // we should set max length smaller than the PostgreSQL allowed size (10485760)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+    	base.OnModelCreating(modelBuilder);
+    	
         modelBuilder.Entity<ApplicationLanguageText>()
             .Property(p => p.Value)
             .HasMaxLength(100); // any integer that is smaller than 10485760
@@ -79,7 +81,7 @@ public class PostgreSqlDemoDbContext : AbpZeroDbContext<Tenant, Role, User, Post
 }
 ```
 
-Remove all migration classes in the ***.EntityFrameworkCore/Migrations** folder,
+Delete the ***.EntityFrameworkCore/Migrations** folder,
 because `Npgsql.EntityFrameworkCore.PostgreSQL` will add some of its own configuration to work with Entity Framework Core.
 
 Now it's ready to build database.
